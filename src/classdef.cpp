@@ -410,7 +410,8 @@ void ClassDef::internalInsertMember(MemberDef *md,
           addMemberToList(MemberList::dcopMethods,md,TRUE);
           break;
         case MemberDef::Property:
-          addMemberToList(MemberList::properties,md,TRUE);
+          //addMemberToList(MemberList::properties,md,TRUE);
+          addMemberToList(MemberList::pubMethods,md,TRUE);
           break;
         case MemberDef::Event:
           addMemberToList(MemberList::events,md,TRUE);
@@ -543,7 +544,8 @@ void ClassDef::internalInsertMember(MemberDef *md,
       switch (md->memberType())
       {
         case MemberDef::Property:
-          addMemberToList(MemberList::propertyMembers,md,FALSE);
+          //addMemberToList(MemberList::propertyMembers,md,FALSE);
+          addMemberToList(MemberList::functionMembers,md,FALSE);
           break;
         case MemberDef::Event:
           addMemberToList(MemberList::eventMembers,md,FALSE);
