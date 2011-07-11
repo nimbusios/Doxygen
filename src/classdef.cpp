@@ -432,100 +432,58 @@ void ClassDef::internalInsertMember(MemberDef *md,
           }
           break;
         default: // any of the other members
-          if (md->isStatic())
+          if (md->isVariable())
           {
-            if (md->isVariable())
+            switch (prot)
             {
-              switch (prot)
-              {
-                case Protected: 
-                  addMemberToList(MemberList::proStaticAttribs,md,TRUE);
-                  break;
-                case Package: 
-                  addMemberToList(MemberList::pacStaticAttribs,md,TRUE);
-                  break;
-                case Public:    
-                  addMemberToList(MemberList::pubStaticAttribs,md,TRUE);
-                  break;
-                case Private:   
-                  addMemberToList(MemberList::priStaticAttribs,md,TRUE);
-                  break;
-              }
-            }
-            else // function
-            {
-              switch (prot)
-              {
-                case Protected: 
-                  addMemberToList(MemberList::proStaticMethods,md,TRUE);
-                  break;
-                case Package: 
-                  addMemberToList(MemberList::pacStaticMethods,md,TRUE);
-                  break;
-                case Public:    
-                  addMemberToList(MemberList::pubStaticMethods,md,TRUE);
-                  break;
-                case Private:   
-                  addMemberToList(MemberList::priStaticMethods,md,TRUE);
-                  break;
-              }
+              case Protected: 
+                addMemberToList(MemberList::proAttribs,md,TRUE);
+                break;
+              case Package:
+                addMemberToList(MemberList::pacAttribs,md,TRUE);
+                break;
+              case Public:    
+                addMemberToList(MemberList::pubAttribs,md,TRUE);
+                break;
+              case Private:   
+                addMemberToList(MemberList::priAttribs,md,TRUE);
+                break;
             }
           }
-          else // not static
+          else if (md->isTypedef() || md->isEnumerate() || md->isEnumValue())
           {
-            if (md->isVariable())
+            switch (prot)
             {
-              switch (prot)
-              {
-                case Protected: 
-                  addMemberToList(MemberList::proAttribs,md,TRUE);
-                  break;
-                case Package:
-                  addMemberToList(MemberList::pacAttribs,md,TRUE);
-                  break;
-                case Public:    
-                  addMemberToList(MemberList::pubAttribs,md,TRUE);
-                  break;
-                case Private:   
-                  addMemberToList(MemberList::priAttribs,md,TRUE);
-                  break;
-              }
+              case Protected: 
+                addMemberToList(MemberList::proTypes,md,TRUE);
+                break;
+              case Package: 
+                addMemberToList(MemberList::pacTypes,md,TRUE);
+                break;
+              case Public:    
+                addMemberToList(MemberList::pubTypes,md,TRUE);
+                break;
+              case Private:   
+                addMemberToList(MemberList::priTypes,md,TRUE);
+                break;
             }
-            else if (md->isTypedef() || md->isEnumerate() || md->isEnumValue())
+          }
+          else // member function
+          {
+            switch (prot)
             {
-              switch (prot)
-              {
-                case Protected: 
-                  addMemberToList(MemberList::proTypes,md,TRUE);
-                  break;
-                case Package: 
-                  addMemberToList(MemberList::pacTypes,md,TRUE);
-                  break;
-                case Public:    
-                  addMemberToList(MemberList::pubTypes,md,TRUE);
-                  break;
-                case Private:   
-                  addMemberToList(MemberList::priTypes,md,TRUE);
-                  break;
-              }
-            }
-            else // member function
-            {
-              switch (prot)
-              {
-                case Protected: 
-                  addMemberToList(MemberList::proMethods,md,TRUE);
-                  break;
-                case Package: 
-                  addMemberToList(MemberList::pacMethods,md,TRUE);
-                  break;
-                case Public:    
-                  addMemberToList(MemberList::pubMethods,md,TRUE);
-                  break;
-                case Private:   
-                  addMemberToList(MemberList::priMethods,md,TRUE);
-                  break;
-              }
+              case Protected: 
+                addMemberToList(MemberList::proMethods,md,TRUE);
+                break;
+              case Package: 
+                addMemberToList(MemberList::pacMethods,md,TRUE);
+                break;
+              case Public:    
+                addMemberToList(MemberList::pubMethods,md,TRUE);
+                break;
+              case Private:   
+                addMemberToList(MemberList::priMethods,md,TRUE);
+                break;
             }
           }
           break; 

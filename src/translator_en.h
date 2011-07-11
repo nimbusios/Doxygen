@@ -105,7 +105,7 @@ class TranslatorEnglish : public Translator
     
     /*! header that is put before the list of member functions. */
     virtual QCString trMemberFunctionDocumentation()
-    { return "Member Function Documentation"; }
+    { return "Method Documentation"; }
     
     /*! header that is put before the list of member attributes. */
     virtual QCString trMemberDataDocumentation()
@@ -644,25 +644,25 @@ class TranslatorEnglish : public Translator
     }
     
     virtual QCString trPublicMembers()
-    { return "Public Member Functions"; }
+    { return "Methods"; }
     virtual QCString trPublicSlots()
     { return "Public Slots"; }
     virtual QCString trSignals()
     { return "Signals"; }
     virtual QCString trStaticPublicMembers()
-    { return "Static Public Member Functions"; }
+    { return "Static Methods"; }
     virtual QCString trProtectedMembers()
-    { return "Protected Member Functions"; }
+    { return "Protected Methods"; }
     virtual QCString trProtectedSlots()
     { return "Protected Slots"; }
     virtual QCString trStaticProtectedMembers()
-    { return "Static Protected Member Functions"; }
+    { return "Static Protected Methods"; }
     virtual QCString trPrivateMembers()
-    { return "Private Member Functions"; }
+    { return "Private Methods"; }
     virtual QCString trPrivateSlots()
     { return "Private Slots"; }
     virtual QCString trStaticPrivateMembers()
-    { return "Static Private Member Functions"; }
+    { return "Static Private Methods"; }
     
     /*! this function is used to produce a comma-separated list of items.
      *  use generateMarker(i) to indicate where item i should be put.
