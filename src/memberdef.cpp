@@ -1430,7 +1430,7 @@ void MemberDef::writeDeclaration(OutputList &ol,
   else
   {
     ol.insertMemberAlign(m_impl->tArgList!=0);
-  }
+  }  
 
   // *** write name
   if (!name().isEmpty() && name().at(0)!='@') // hide anonymous stuff 
@@ -1460,6 +1460,9 @@ void MemberDef::writeDeclaration(OutputList &ol,
         ClassDef *rcd = cd;
         if (isReference() && m_impl->classDef) rcd = m_impl->classDef; 
         writeLink(ol,rcd,nd,fd,gd);
+      }
+      if (m_impl->mtype == MemberDef::Property) {
+        ol.writeString(" <span class=\"suffix\">property</span>");
       }
     }
     else if (isDocumentedFriendClass())
