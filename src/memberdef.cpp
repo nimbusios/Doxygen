@@ -1665,7 +1665,7 @@ bool MemberDef::isDetailedSectionLinkable() const
          // treat everything as documented
          extractAll ||          
          // has detailed docs
-         !documentation().isEmpty() ||             
+         //!documentation().isEmpty() ||             
          // has inbody docs
          !inbodyDocumentation().isEmpty() ||
          // is an enum with values that are documented
