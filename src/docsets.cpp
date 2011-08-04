@@ -265,7 +265,7 @@ void DocSets::addIndexItem(Definition *context,MemberDef *md,const char *)
         else if (fd && fd->name().right(2).lower()==".c") 
           lang="c";    // Plain C
         else if (cd==0 && nd==0)
-          lang="c";    // Plain C symbol outside any class or namespace
+          lang="occ";  // Plain Objective C/C++ symbol outside any class or namespace
         else
           lang="cpp";  // C++
       }
@@ -376,7 +376,16 @@ void DocSets::addIndexItem(Definition *context,MemberDef *md,const char *)
     }
     else if (cd) 
     {
-      scope = cd->qualifiedName();
+      switch (langExt)
+      {
+        case SrcLangExt_Cpp:
+        case SrcLangExt_ObjC:
+        // Don't include a scope for Objective-C classes
+        break;
+        default:
+        scope = cd->qualifiedName();
+        break;
+      }
       if (cd->isTemplate())
       {
         type="tmplt";
