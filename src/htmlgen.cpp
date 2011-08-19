@@ -2908,7 +2908,7 @@ void HtmlGenerator::startContents()
 
 void HtmlGenerator::endContents()
 {
-  t << "</div>" << endl;
+  t << "<div id=\"disqus_thread\"></div></div>" << endl;
 }
 
 void HtmlGenerator::writeQuickLinks(bool compact,HighlightedItem hli)
