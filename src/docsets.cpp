@@ -48,6 +48,8 @@ void DocSets::initialize()
   if (publisherId.isEmpty()) publisherId="PublisherId";
   QCString publisherName = Config_getString("DOCSET_PUBLISHER_NAME");
   if (publisherName.isEmpty()) publisherName="PublisherName";
+  QCString projectNumber = Config_getString("PROJECT_NUMBER");
+  if (projectNumber.isEmpty()) projectNumber="ProjectNumber";
 
   // -- write Makefile
   {
@@ -116,7 +118,11 @@ void DocSets::initialize()
         "     <key>CFBundleName</key>\n" 
         "     <string>" << projectName << "</string>\n" 
         "     <key>CFBundleIdentifier</key>\n"
-        "     <string>" << bundleId << ".docset</string>\n" 
+        "     <string>" << bundleId << "</string>\n" 
+        "     <key>CFBundleVersion</key>\n"
+        "     <string>" << projectNumber << "</string>\n"
+        "     <key>DocSetFeedURL</key>\n"
+        "     <string>http://jverkoey.github.com/nimbus/nimbusdocset.atom</string>\n"
         "     <key>DocSetFeedName</key>\n" 
         "     <string>" << feedName << "</string>\n"
         "     <key>DocSetPublisherIdentifier</key>\n"
