@@ -1664,6 +1664,8 @@ bool MemberDef::isDetailedSectionLinkable() const
   bool docFilter = 
          // treat everything as documented
          extractAll ||          
+         // has brief docs
+         !briefDescription().isEmpty() ||
          // has detailed docs
          !documentation().isEmpty() ||             
          // has inbody docs
