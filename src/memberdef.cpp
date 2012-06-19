@@ -2286,7 +2286,7 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
       ) 
      )  
   { 
-    ol.startParagraph();
+    ol.startParagraph("abstract");
     ol.parseDoc(briefFile(),briefLine(),
                 getOuterScope()?getOuterScope():container,this,
                 brief,FALSE,FALSE,0,TRUE,FALSE);
@@ -2301,6 +2301,7 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
   if (!detailed.isEmpty() || 
       !inbodyDocumentation().isEmpty())
   { 
+    ol.startDetailedDescription();
     // write vhdl inline code with or without option INLINE_SOURCE
     if (optVhdl && VhdlDocGen::isMisc(this)) 
     {

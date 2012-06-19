@@ -99,8 +99,8 @@ class OutputList : public OutputDocInterface
     { forall(&OutputGenerator::endTitle); }
     //void newParagraph() 
     //{ forall(&OutputGenerator::newParagraph); }
-    void startParagraph() 
-    { forall(&OutputGenerator::startParagraph); }
+    void startParagraph(const char *text = 0) 
+    { forall(&OutputGenerator::startParagraph, text); }
     void endParagraph() 
     { forall(&OutputGenerator::endParagraph); }
     void writeString(const char *text) 
@@ -195,6 +195,8 @@ class OutputList : public OutputDocInterface
     { forall(&OutputGenerator::startMemberDeclaration); }
     void endMemberDeclaration() 
     { forall(&OutputGenerator::endMemberDeclaration); }
+    void startDetailedDescription() 
+    { forall(&OutputGenerator::startDetailedDescription); }
     void startInlineDescription()
     { forall(&OutputGenerator::startInlineDescription); }
     void endInlineDescription()

@@ -63,7 +63,7 @@ class LatexGenerator : public OutputGenerator
     void endTitle()   { t << "}"; }
 
     void newParagraph();
-    void startParagraph();
+    void startParagraph(const char *text = 0);
     void endParagraph();
     void writeString(const char *text);
     void startIndexListItem() {}
@@ -110,6 +110,7 @@ class LatexGenerator : public OutputGenerator
     void endMemberList();
     void startMemberDeclaration() {}
     void endMemberDeclaration() {}
+    void startDetailedDescription() {}
     void startInlineDescription() {}
     void endInlineDescription() {}
     void startInlineHeader();

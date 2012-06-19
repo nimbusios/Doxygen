@@ -1628,9 +1628,13 @@ void HtmlGenerator::endDoxyAnchor(const char *,const char *)
 //  t << endl << "<p>" << endl;
 //}
 
-void HtmlGenerator::startParagraph()
+void HtmlGenerator::startParagraph(const char *text)
 {
-  t << endl << "<p>";
+  if (text) {
+    t << endl << "<p class=" << text << ">";
+  } else {
+    t << endl << "<p>";
+  }
 }
 
 void HtmlGenerator::endParagraph()
@@ -2367,6 +2371,11 @@ void HtmlGenerator::startMemberDeclaration()
 void HtmlGenerator::endMemberDeclaration()
 {
   t << "</div>" << endl;
+}
+
+void HtmlGenerator::startDetailedDescription()
+{
+  t << "<h5>Discussion</h5>" << endl;
 }
 
 void HtmlGenerator::startDotGraph()

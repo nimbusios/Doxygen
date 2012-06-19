@@ -138,7 +138,7 @@ class BaseOutputDocInterface : public CodeOutputInterface
     //virtual void newParagraph()   = 0;
 
     /*! Starts a new paragraph */
-    virtual void startParagraph() = 0;
+    virtual void startParagraph(const char *text = 0) = 0;
     /*! Ends a paragraph */
     virtual void endParagraph() = 0;
 
@@ -337,6 +337,7 @@ class OutputGenerator : public BaseOutputDocInterface
     virtual void endMemberList() = 0;
     virtual void startMemberDeclaration() = 0;
     virtual void endMemberDeclaration() = 0;
+    virtual void startDetailedDescription() = 0;
     virtual void startInlineDescription() = 0;
     virtual void endInlineDescription() = 0;
     virtual void startInlineHeader() = 0;

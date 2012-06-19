@@ -70,7 +70,7 @@ class HtmlGenerator : public OutputGenerator
     void startTitle() { t << "<div class=\"title\">"; }
     void endTitle() { t << "</div>"; }
     
-    void startParagraph();
+    void startParagraph(const char * text = 0);
     void endParagraph();
     void writeString(const char *text);
     void startIndexListItem();
@@ -115,6 +115,7 @@ class HtmlGenerator : public OutputGenerator
     void endMemberDocList();
     void startMemberList();
     void endMemberList();
+    void startDetailedDescription();
     void startMemberDeclaration();
     void endMemberDeclaration();
     void startInlineDescription();

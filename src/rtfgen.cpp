@@ -2104,7 +2104,7 @@ void RTFGenerator::newParagraph()
   m_omitParagraph = FALSE;
 }
 
-void RTFGenerator::startParagraph()
+void RTFGenerator::startParagraph(const char *text)
 {
   DBG_RTF(t << "{\\comment startParagraph}" << endl)
   newParagraph();

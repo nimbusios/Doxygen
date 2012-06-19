@@ -180,7 +180,7 @@ void ManGenerator::newParagraph()
   paragraph=TRUE;
 }
 
-void ManGenerator::startParagraph()
+void ManGenerator::startParagraph(const char *text)
 {
   if (!paragraph)
   {
