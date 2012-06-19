@@ -65,6 +65,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -389,7 +390,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	doctokenizerYYleng = (size_t) (yy_cp - yy_bp); \
+	doctokenizerYYleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -9994,7 +9995,7 @@ static int yyread(char *buf,int max_size)
 
 
 
-#line 9998 "<stdout>"
+#line 9999 "<stdout>"
 
 #define INITIAL 0
 #define St_Para 1
@@ -10214,7 +10215,7 @@ YY_DECL
     
 #line 388 "doctokenizer.l"
 
-#line 10218 "<stdout>"
+#line 10219 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -11509,7 +11510,7 @@ YY_RULE_SETUP
 #line 960 "doctokenizer.l"
 ECHO;
 	YY_BREAK
-#line 11513 "<stdout>"
+#line 11514 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(St_Para):
 			case YY_STATE_EOF(St_Comment):

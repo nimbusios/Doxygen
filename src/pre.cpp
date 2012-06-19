@@ -65,6 +65,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -376,7 +377,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	preYYleng = (size_t) (yy_cp - yy_bp); \
+	preYYleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -3676,7 +3677,7 @@ static int yyread(char *buf,int max_size)
 
 
 
-#line 3680 "<stdout>"
+#line 3681 "<stdout>"
 
 #define INITIAL 0
 #define Start 1
@@ -3896,7 +3897,7 @@ YY_DECL
 #line 1458 "pre.l"
 
 
-#line 3900 "<stdout>"
+#line 3901 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -5760,7 +5761,7 @@ YY_RULE_SETUP
 #line 2411 "pre.l"
 ECHO;
 	YY_BREAK
-#line 5764 "<stdout>"
+#line 5765 "<stdout>"
 
 	case YY_END_OF_BUFFER:
 		{
