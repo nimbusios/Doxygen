@@ -1903,6 +1903,8 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
     }
 
     ol.startMemberDocName(isObjCMethod());
+    ol.docify(objCMethodName(true, false).data());
+    /*
     if (cd && cd->isObjectiveC())
     {
       // strip scope name
@@ -1946,7 +1948,7 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
     {
       linkifyText(TextGeneratorOLImpl(ol),container,getBodyDef(),name(),ldef);
       hasParameterList=writeDefArgumentList(ol,cd,scopeName,this);
-    }
+    }*/
 
     if (hasOneLineInitializer()) // add initializer
     {
@@ -1982,7 +1984,7 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
      )
   {
     // write the member specifier list
-    ol.writeLatexSpacing();
+    /*ol.writeLatexSpacing();
     ol.startTypewriter();
     ol.docify(" [");
     QStrList sl;
@@ -2048,7 +2050,7 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
       if (s) ol.docify(", ");
     }
     ol.docify("]");
-    ol.endTypewriter();
+    ol.endTypewriter();*/
   }
   else if (isObjCMethod() && isImplementation())
   {

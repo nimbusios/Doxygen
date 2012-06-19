@@ -2251,7 +2251,6 @@ void HtmlGenerator::startMemberDoc(const char *,const char *,const char *,const 
   DBG_HTML(t << "<!-- startMemberDoc -->" << endl;)
  
   t << "\n<div class=\"memitem\">" << endl;
-  t << "<div class=\"memproto\">" << endl;
 }
 
 void HtmlGenerator::startMemberDocPrefixItem()
@@ -2270,16 +2269,13 @@ void HtmlGenerator::startMemberDocName(bool /*align*/)
 {
   DBG_HTML(t << "<!-- startMemberDocName -->" << endl;)
 
-  t << "      <table class=\"memname\">" << endl;
-    
-  t << "        <tr>" << endl;
-  t << "          <td class=\"memname\">";
+  t << "      <h3 class=\"memname\">" << endl;
 }
 
 void HtmlGenerator::endMemberDocName()
 {
   DBG_HTML(t << "<!-- endMemberDocName -->" << endl;)
-  t << "</td>" << endl;
+  t << "</h3>" << endl;
 }
 
 void HtmlGenerator::startParameterList(bool openBracket)
@@ -2361,12 +2357,6 @@ void HtmlGenerator::endParameterList()
 void HtmlGenerator::endMemberDoc(bool hasArgs)     
 { 
   DBG_HTML(t << "<!-- endMemberDoc -->" << endl;)
-  if (!hasArgs)
-  {
-    t << "        </tr>" << endl;
-  }
-  t << "      </table>" << endl;
-  t << "</div>" << endl;
 }
 
 void HtmlGenerator::startDotGraph()
