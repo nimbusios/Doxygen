@@ -108,6 +108,8 @@ class LatexGenerator : public OutputGenerator
     void endMemberDocList() {}
     void startMemberList();
     void endMemberList();
+    void startMemberDeclaration() {}
+    void endMemberDeclaration() {}
     void startInlineDescription() {}
     void endInlineDescription() {}
     void startInlineHeader();

@@ -65,6 +65,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -376,7 +377,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	vhdlscanYYleng = (size_t) (yy_cp - yy_bp); \
+	vhdlscanYYleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -7945,7 +7946,7 @@ PROCESS      ({BR}*{FUNCNAME}{B}*[:]{BR}*({POST}{BR}+)?("process"){BR}*{PROTO})|
 
 
 
-#line 7949 "<stdout>"
+#line 7950 "<stdout>"
 
 #define INITIAL 0
 #define Start 1
@@ -8148,7 +8149,7 @@ YY_DECL
 #line 691 "vhdlscanner.l"
 
 
-#line 8152 "<stdout>"
+#line 8153 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -9410,7 +9411,7 @@ YY_RULE_SETUP
 #line 1670 "vhdlscanner.l"
 ECHO;
 	YY_BREAK
-#line 9414 "<stdout>"
+#line 9415 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(Start):
 			case YY_STATE_EOF(Comment):

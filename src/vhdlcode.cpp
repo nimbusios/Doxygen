@@ -65,6 +65,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -376,7 +377,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	vhdlcodeYYleng = (size_t) (yy_cp - yy_bp); \
+	vhdlcodeYYleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -9058,7 +9059,7 @@ static int yyread(char *buf,int max_size)
 
 
 
-#line 9062 "<stdout>"
+#line 9063 "<stdout>"
 
 #define INITIAL 0
 #define Bases 1
@@ -9256,7 +9257,7 @@ YY_DECL
 #line 794 "vhdlcode.l"
 
 
-#line 9260 "<stdout>"
+#line 9261 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -10180,7 +10181,7 @@ YY_RULE_SETUP
 #line 1468 "vhdlcode.l"
 ECHO;
 	YY_BREAK
-#line 10184 "<stdout>"
+#line 10185 "<stdout>"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(Bases):
 case YY_STATE_EOF(ParseType):

@@ -2122,6 +2122,10 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
                 getOuterScope()?getOuterScope():container,this,
                 brief,FALSE,FALSE,0,TRUE,FALSE);
     ol.endParagraph();
+    
+    ol.startMemberDeclaration();
+    ol.docify(definition());
+    ol.endMemberDeclaration();
   }
 
   /* write detailed description */

@@ -65,6 +65,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -376,7 +377,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	fcodeYYleng = (size_t) (yy_cp - yy_bp); \
+	fcodeYYleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -7966,7 +7967,7 @@ static int yyread(char *buf,int max_size)
 
 
 
-#line 7970 "<stdout>"
+#line 7971 "<stdout>"
 
 #define INITIAL 0
 #define Start 1
@@ -8181,7 +8182,7 @@ YY_DECL
 
  /*-------- ignore ------------------------------------------------------------*/
 
-#line 8185 "<stdout>"
+#line 8186 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -8815,7 +8816,7 @@ YY_RULE_SETUP
 #line 982 "fortrancode.l"
 ECHO;
 	YY_BREAK
-#line 8819 "<stdout>"
+#line 8820 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(Start):
 			case YY_STATE_EOF(SubCall):

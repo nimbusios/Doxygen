@@ -2359,6 +2359,16 @@ void HtmlGenerator::endMemberDoc(bool hasArgs)
   DBG_HTML(t << "<!-- endMemberDoc -->" << endl;)
 }
 
+void HtmlGenerator::startMemberDeclaration()
+{
+  t << "<div class=\"declaration\">" << endl;
+}
+
+void HtmlGenerator::endMemberDeclaration()
+{
+  t << "</div>" << endl;
+}
+
 void HtmlGenerator::startDotGraph()
 {
   startSectionHeader(t,relPath,m_sectionCount);
