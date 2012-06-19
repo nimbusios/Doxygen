@@ -1780,7 +1780,16 @@ void MemberDef::writeOriginalDeclaration(OutputList &ol,
       if (paramParts.count() > 1) {
         ol.docify("(");
         for (int iy = 0; iy < paramParts.count() - 1; ++iy) {
-          ol.docify(paramParts[iy]);
+
+          linkifyText(TextGeneratorOLImpl(ol), // out
+                      d,                       // scope
+                      getBodyDef(),            // fileScope
+                      name(),                  //
+                      paramParts[iy],                   // text
+                      FALSE                     // autoBreak
+                     );
+
+//          ol.docify(paramParts[iy]);
           if (iy < paramParts.count() - 2) {
             ol.docify(" ");
           }
