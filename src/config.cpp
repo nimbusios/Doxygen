@@ -65,6 +65,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -376,7 +377,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	configYYleng = (size_t) (yy_cp - yy_bp); \
+	configYYleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -1195,7 +1196,7 @@ static void readIncludeFile(const char *incName)
 
 
 
-#line 1199 "<stdout>"
+#line 1200 "<stdout>"
 
 #define INITIAL 0
 #define Start 1
@@ -1387,7 +1388,7 @@ YY_DECL
 #line 606 "config.l"
 
 
-#line 1391 "<stdout>"
+#line 1392 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -1781,7 +1782,7 @@ YY_RULE_SETUP
 #line 805 "config.l"
 ECHO;
 	YY_BREAK
-#line 1785 "<stdout>"
+#line 1786 "<stdout>"
 
 	case YY_END_OF_BUFFER:
 		{
