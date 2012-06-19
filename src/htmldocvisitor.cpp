@@ -928,7 +928,7 @@ void HtmlDocVisitor::visitPre(DocSimpleSect *s)
   // special case 1: user defined title
   if (s->type()!=DocSimpleSect::User && s->type()!=DocSimpleSect::Rcs)
   {
-    m_t << ":</b></dt><dd>";
+    m_t << "</b></dt><dd>";
   }
 }
 
