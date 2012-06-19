@@ -1649,6 +1649,289 @@ void MemberDef::writeDeclaration(OutputList &ol,
   warnIfUndocumented();
 }
 
+void MemberDef::writeOriginalDeclaration(OutputList &ol,
+               ClassDef *cd,NamespaceDef *nd,FileDef *fd,GroupDef *gd,
+               bool inGroup
+               )
+{
+  //printf("%s MemberDef::writeDeclaration() inGroup=%d\n",name().data(),inGroup);
+
+  // hide enum value, since they appear already as part of the enum, unless they
+  // are explicitly grouped.
+  makeResident();
+  if (!inGroup && m_impl->mtype==EnumValue) return;
+  LockingPtr<MemberDef> lock(this,this);
+
+  // hide members whose brief section should not be visible
+  //if (!isBriefSectionVisible()) return;
+
+  Definition *d=0;
+  ASSERT (cd!=0 || nd!=0 || fd!=0 || gd!=0); // member should belong to something
+  if (cd) d=cd; else if (nd) d=nd; else if (fd) d=fd; else d=gd;
+
+  // write tag file information of this member
+  if (!Config_getString("GENERATE_TAGFILE").isEmpty() && !isReference())
+  {
+    Doxygen::tagFile << "    <member kind=\"";
+    switch (m_impl->mtype)
+    {
+      case Define:      Doxygen::tagFile << "define";      break;
+      case EnumValue:   Doxygen::tagFile << "enumvalue";   break;
+      case Property:    Doxygen::tagFile << "property";    break;
+      case Event:       Doxygen::tagFile << "event";       break;
+      case Variable:    Doxygen::tagFile << "variable";    break;
+      case Typedef:     Doxygen::tagFile << "typedef";     break;
+      case Enumeration: Doxygen::tagFile << "enumeration"; break;
+      case Function:    Doxygen::tagFile << "function";    break;
+      case Signal:      Doxygen::tagFile << "signal";      break;
+      //case Prototype:   Doxygen::tagFile << "prototype";   break;
+      case Friend:      Doxygen::tagFile << "friend";      break;
+      case DCOP:        Doxygen::tagFile << "dcop";        break;
+      case Slot:        Doxygen::tagFile << "slot";        break;
+    }
+    if (m_impl->prot!=Public)
+    {
+      Doxygen::tagFile << "\" protection=\"";
+      if (m_impl->prot==Protected)    Doxygen::tagFile << "protected";
+      else if (m_impl->prot==Package) Doxygen::tagFile << "package";
+      else /* Private */              Doxygen::tagFile << "private"; 
+    }
+    if (m_impl->virt!=Normal)
+    {
+      Doxygen::tagFile << "\" virtualness=\"";
+      if (m_impl->virt==Virtual) Doxygen::tagFile << "virtual";
+      else /* Pure */            Doxygen::tagFile << "pure"; 
+    }
+    if (isStatic())
+    {
+      Doxygen::tagFile << "\" static=\"yes";
+    }
+    Doxygen::tagFile << "\">" << endl;
+    Doxygen::tagFile << "      <type>" << convertToXML(typeString()) << "</type>" << endl;
+    Doxygen::tagFile << "      <name>" << convertToXML(name()) << "</name>" << endl;
+    Doxygen::tagFile << "      <anchorfile>" << convertToXML(getOutputFileBase()+Doxygen::htmlFileExtension) << "</anchorfile>" << endl;
+    Doxygen::tagFile << "      <anchor>" << convertToXML(anchor()) << "</anchor>" << endl;
+    Doxygen::tagFile << "      <arglist>" << convertToXML(argsString()) << "</arglist>" << endl;
+    writeDocAnchorsToTagFile();
+    Doxygen::tagFile << "    </member>" << endl;
+  }
+
+  // write search index info
+  if (Doxygen::searchIndex && isLinkableInProject())
+  {
+    Doxygen::searchIndex->setCurrentDoc(qualifiedName(),getOutputFileBase(),anchor());
+    Doxygen::searchIndex->addWord(localName(),TRUE);
+    Doxygen::searchIndex->addWord(qualifiedName(),FALSE);
+  }
+
+  QCString cname  = d->name();
+  QCString cfname = getOutputFileBase();
+  //QCString osname = cname;
+  // in case of class members that are put in a group the name of the outerscope
+  // differs from the cname.
+  //if (getOuterScope()) osname=getOuterScope()->name();
+
+  //HtmlHelp *htmlHelp=0;
+  //bool hasHtmlHelp = Config_getBool("GENERATE_HTML") && Config_getBool("GENERATE_HTMLHELP");
+  //if (hasHtmlHelp) htmlHelp = HtmlHelp::getInstance();
+
+  // search for the last anonymous scope in the member type
+  ClassDef *annoClassDef=getClassDefOfAnonymousType();
+
+  // start a new member declaration
+  bool isAnonymous = annoClassDef || m_impl->annMemb || m_impl->annEnumType;
+  ///printf("startMemberItem for %s\n",name().data());
+  ol.startMemberItem( isAnonymous ? 1 : m_impl->tArgList ? 3 : 0);
+  
+  if (m_impl->mtype == MemberDef::Property) {
+    ol.docify("@property (");
+    QStrList sl;
+    if      (isNonAtomic())           sl.append("nonatomic");
+    if      (isReadable() && isWritable())  sl.append("readwrite");
+    else if (isReadable())            sl.append("readonly");
+    if      (isAssign())              sl.append("assign");
+    else if (isCopy())                sl.append("copy");
+    else if (isRetain())              sl.append("retain");
+    const char *s=sl.first();
+    while (s)
+    {
+      ol.docify(s);
+      s=sl.next();
+      if (s) ol.docify(", ");
+    }
+    ol.docify(") ");
+  }
+
+  // If there is no detailed description we need to write the anchor here.
+  bool detailsVisible = isDetailedSectionLinkable();
+  if (!detailsVisible && !m_impl->annMemb)
+  {
+    QCString doxyName=name().copy();
+    if (!cname.isEmpty()) doxyName.prepend(cname+"::");
+    QCString doxyArgs=argsString();
+    ol.startDoxyAnchor(cfname,cname,anchor(),doxyName,doxyArgs);
+
+    ol.pushGeneratorState();
+    ol.disable(OutputGenerator::Man);
+    ol.disable(OutputGenerator::Latex);
+    ol.docify("\n");
+    ol.popGeneratorState();
+  }
+
+  if (annoClassDef || m_impl->annMemb)
+  {
+    int j;
+    for (j=0;j<s_indentLevel;j++) 
+    {
+      ol.writeNonBreakableSpace(3);
+    }
+  }
+
+  // *** write template lists
+  if (m_impl->tArgList)
+  {
+    if (!isAnonymous) ol.startMemberTemplateParams();
+    writeTemplatePrefix(ol,m_impl->tArgList);
+    if (!isAnonymous) ol.endMemberTemplateParams();
+  }
+
+  // *** write type
+  QCString ltype(m_impl->type);
+  if (m_impl->mtype==Typedef) ltype.prepend("typedef ");
+  // strip `friend' keyword from ltype
+  ltype.stripPrefix("friend ");
+  static QRegExp r("@[0-9]+");
+
+  bool endAnonScopeNeeded=FALSE;
+  int l,i=r.match(ltype,0,&l);
+  if (i!=-1) // member has an anonymous type
+  {
+    //printf("annoClassDef=%p annMemb=%p scopeName=`%s' anonymous=`%s'\n",
+    //    annoClassDef,annMemb,cname.data(),ltype.mid(i,l).data());
+
+    if (annoClassDef) // type is an anonymous compound
+    {
+      int ir=i+l;
+      //printf("<<<<<<<<<<<<<<\n");
+      ol.startAnonTypeScope(s_indentLevel++);
+      annoClassDef->writeDeclaration(ol,m_impl->annMemb,inGroup);
+      //printf(">>>>>>>>>>>>>> startMemberItem(2)\n");
+      ol.startMemberItem(2);
+      int j;
+      for (j=0;j< s_indentLevel-1;j++) 
+      {
+        ol.writeNonBreakableSpace(3);
+      }
+      QCString varName=ltype.right(ltype.length()-ir).stripWhiteSpace();
+      //printf(">>>>>> indDepth=%d ltype=`%s' varName=`%s'\n",indDepth,ltype.data(),varName.data());
+      ol.docify("}");
+      if (varName.isEmpty() && (name().isEmpty() || name().at(0)=='@')) 
+      {
+        ol.docify(";"); 
+      }
+      endAnonScopeNeeded=TRUE;
+    }
+    else
+    {
+      if (getAnonymousEnumType()) // type is an anonymous enum
+      {
+        linkifyText(TextGeneratorOLImpl(ol), // out
+                    d,                       // scope
+                    getBodyDef(),            // fileScope
+                    name(),                  // 
+                    ltype.left(i),           // text
+                    TRUE                     // autoBreak
+                   ); 
+        getAnonymousEnumType()->writeEnumDeclaration(ol,cd,nd,fd,gd);
+        //ol+=*getAnonymousEnumType()->enumDecl();
+        linkifyText(TextGeneratorOLImpl(ol),d,m_impl->fileDef,name(),ltype.right(ltype.length()-i-l),TRUE); 
+      }
+      else
+      {
+        ltype = ltype.left(i) + " { ... } " + removeAnonymousScopes(ltype.right(ltype.length()-i-l));
+        linkifyText(TextGeneratorOLImpl(ol), // out
+                    d,                       // scope
+                    getBodyDef(),            // fileScope
+                    name(),                  // 
+                    ltype,                   // text
+                    TRUE                     // autoBreak
+                   ); 
+      }
+    }
+  }
+  else if (ltype=="@") // rename type from enum values
+  {
+    ltype="";
+  }
+  else
+  {
+    if (isObjCMethod())
+    {
+      ltype.prepend("(");
+      ltype.append(")");
+    }
+    linkifyText(TextGeneratorOLImpl(ol), // out
+                d,                       // scope
+                getBodyDef(),            // fileScope
+                name(),                  //
+                ltype,                   // text
+                TRUE                     // autoBreak
+               );
+  }
+  bool htmlOn = ol.isEnabled(OutputGenerator::Html);
+  if (htmlOn && Config_getBool("HTML_ALIGN_MEMBERS") && !ltype.isEmpty())
+  {
+    ol.disable(OutputGenerator::Html);
+  }
+  if (!ltype.isEmpty()) ol.docify(" ");
+  if (htmlOn) 
+  {
+    ol.enable(OutputGenerator::Html);
+  }
+
+  
+  if (m_impl->annMemb) 
+  {
+    ol.pushGeneratorState();
+    ol.disableAllBut(OutputGenerator::Html);
+    ol.writeNonBreakableSpace(3);
+    ol.popGeneratorState();
+  }
+  else
+  {
+    ol.insertMemberAlign(m_impl->tArgList!=0);
+  }  
+
+  // *** write name
+  if (!name().isEmpty() && name().at(0)!='@') // hide anonymous stuff 
+  {
+    //printf("Member name=`%s gd=%p md->groupDef=%p inGroup=%d isLinkable()=%d\n",name().data(),gd,getGroupDef(),inGroup,isLinkable());
+    if (!(name().isEmpty() || name().at(0)=='@') && // name valid
+        (hasDocumentation() || isReference()) && // has docs
+        !(m_impl->prot==Private && !Config_getBool("EXTRACT_PRIVATE") && m_impl->mtype!=Friend) && // hidden due to protection
+        !(isStatic() && m_impl->classDef==0 && !Config_getBool("EXTRACT_STATIC")) // hidden due to static-ness
+       )
+    {
+      if (!m_impl->annMemb)
+      {
+        //printf("writeLink %s->%d\n",name.data(),hasDocumentation());
+        ClassDef *rcd = cd;
+        if (isReference() && m_impl->classDef) rcd = m_impl->classDef; 
+        writeLink(ol,rcd,nd,fd,gd, TRUE);
+        ol.docify(";");
+      }
+    }
+  }
+
+  //printf("endMember %s annoClassDef=%p annEnumType=%p\n",
+  //    name().data(),annoClassDef,annEnumType);
+  ol.endMemberItem();
+  if (endAnonScopeNeeded) 
+  {
+    ol.endAnonTypeScope(--s_indentLevel);
+  }
+}
+
 bool MemberDef::isDetailedSectionLinkable() const          
 { 
   static bool extractAll        = Config_getBool("EXTRACT_ALL");
@@ -2124,7 +2407,7 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
     ol.endParagraph();
     
     ol.startMemberDeclaration();
-    ol.docify(definition());
+    writeOriginalDeclaration(ol, m_impl->classDef, m_impl->nspace, m_impl->fileDef, m_impl->group, inGroup);
     ol.endMemberDeclaration();
   }
 

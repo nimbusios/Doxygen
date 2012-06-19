@@ -345,6 +345,9 @@ class MemberDef : public Definition
     void writeDeclaration(OutputList &ol,
                    ClassDef *cd,NamespaceDef *nd,FileDef *fd,GroupDef *gd,
                    bool inGroup); 
+    void writeOriginalDeclaration(OutputList &ol,
+                   ClassDef *cd,NamespaceDef *nd,FileDef *fd,GroupDef *gd,
+                   bool inGroup); 
     void writeDocumentation(MemberList *ml,OutputList &ol,
                             const char *scopeName,Definition *container,
                             bool inGroup,bool showEnumValues=FALSE,bool
