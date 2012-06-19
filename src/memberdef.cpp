@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <qglobal.h>
 #include <qregexp.h>
+#include <qstringlist.h>
 #include <assert.h>
 #include "md5.h"
 #include "memberdef.h"
@@ -1750,11 +1751,54 @@ void MemberDef::writeOriginalDeclaration(OutputList &ol,
   if (isReference() && m_impl->classDef) rcd = m_impl->classDef; 
 
   QCString n = name();
+  QCString doxyArgs = argsString();
 
-  ol.startBold();
-  ol.docify(n);
-  ol.endBold();
-  ol.docify(";");
+  // Remove the surrounding brackets
+  doxyArgs.stripPrefix("(");
+  doxyArgs = doxyArgs.left(doxyArgs.length() - 1);
+
+  QStringList args = QStringList::split(QString(":"), n, FALSE);
+  QStringList params = QStringList::split(QString(","), doxyArgs, FALSE);
+  if (args.count() != params.count()) {
+    ol.docify(n);
+
+  } else {
+    for (int ix = 0; ix < args.count(); ++ix) {
+      QCString arg = (QCString)(args[ix]);
+      QCString param = (QCString)(params[ix]);
+      ol.docify(arg);
+      ol.docify(":");
+
+      param.replace(QRegExp(" \\*"), " * ");
+      param.replace(QRegExp("\\[.+\\] "), "");
+      param.replace(QRegExp("__NI_DEPRECATED_METHOD"), "");
+      param.replace(QRegExp("< "), "<");
+      param.replace(QRegExp(" >"), ">");
+      param = param.stripWhiteSpace();
+      
+      QStringList paramParts = QStringList::split(QString(" "), param, FALSE);
+      if (paramParts.count() > 1) {
+        ol.docify("(");
+        for (int iy = 0; iy < paramParts.count() - 1; ++iy) {
+          ol.docify(paramParts[iy]);
+          if (iy < paramParts.count() - 2) {
+            ol.docify(" ");
+          }
+        }
+        ol.docify(")");
+      }
+
+      // Parameter name
+      if (paramParts.count() > 1) {
+        ol.docify(paramParts.last());
+      }
+      if (ix < args.count() - 1) {
+        ol.docify(" ");
+      }
+     }
+   }
+   
+   ol.docify(";");
 
   //printf("endMember %s annoClassDef=%p annEnumType=%p\n",
   //    name().data(),annoClassDef,annEnumType);
