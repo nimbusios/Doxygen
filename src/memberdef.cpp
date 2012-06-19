@@ -1750,6 +1750,8 @@ void MemberDef::writeOriginalDeclaration(OutputList &ol,
     if      (isReadable() && isWritable())  sl.append("readwrite");
     else if (isReadable())            sl.append("readonly");
     if      (isAssign())              sl.append("assign");
+    else if (isStrong())              sl.append("strong");
+    else if (isWeak())                sl.append("weak");
     else if (isCopy())                sl.append("copy");
     else if (isRetain())              sl.append("retain");
     const char *s=sl.first();
@@ -3863,6 +3865,18 @@ bool MemberDef::isNonAtomic() const
 { 
   makeResident();
   return (m_impl->memSpec&Entry::NonAtomic)!=0; 
+}
+
+bool MemberDef::isStrong() const
+{ 
+  makeResident();
+  return (m_impl->memSpec&Entry::Strong)!=0; 
+}
+
+bool MemberDef::isWeak() const
+{ 
+  makeResident();
+  return (m_impl->memSpec&Entry::Weak)!=0; 
 }
 
 bool MemberDef::isCopy() const

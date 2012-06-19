@@ -154,6 +154,8 @@ class MemberDef : public Definition
     bool isRequired() const;
     bool isNonAtomic() const;
     bool isCopy() const;
+    bool isStrong() const;
+    bool isWeak() const;
     bool isAssign() const;
     bool isRetain() const;
     bool isNew() const;

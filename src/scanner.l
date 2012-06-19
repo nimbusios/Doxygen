@@ -1172,11 +1172,19 @@ TYPEDEFPREFIX (("typedef"{BN}+)?)((("volatile"|"const"){BN}+)?)
 					  current->spec&=~Entry::Assign;
 					  current->spec|=Entry::Retain;
   					}
+<ObjCPropAttr>"strong"			{
+					  current->spec&=~Entry::Assign;
+					  current->spec|=Entry::Strong;
+  					}
+<ObjCPropAttr>"weak"			{
+					  current->spec&=~Entry::Assign;
+					  current->spec|=Entry::Weak;
+  					}
 <ObjCPropAttr>"copy"			{
 					  current->spec&=~Entry::Assign;
 					  current->spec|=Entry::Copy;
   					}
-<ObjCPropAttr>"nonatmic"		{
+<ObjCPropAttr>"nonatomic"		{
 					  current->spec|=Entry::NonAtomic;
   					}
 <ObjCPropAttr>")"			{
