@@ -688,6 +688,7 @@ static bool readCodeFragment(const char *fileName,
 /*! Write a reference to the source code defining this definition */
 void Definition::writeSourceDef(OutputList &ol,const char *)
 {
+  return;
   static bool sourceBrowser = Config_getBool("SOURCE_BROWSER");
   static bool latexSourceCode = Config_getBool("LATEX_SOURCE_CODE");
   makeResident();
