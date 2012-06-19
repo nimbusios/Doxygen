@@ -1913,6 +1913,8 @@ void MemberDef::writeDocumentation(MemberList *ml,OutputList &ol,
         if (sp!=-1)
         {
           ldef=ldef.left(sp+1)+ldef.mid(ep+2);
+        } else {
+          ldef=ldef.mid(ep+2);
         }
       }
       // strip keywords
