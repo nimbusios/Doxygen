@@ -2808,7 +2808,7 @@ void MemberDef::setAnchor(const char *a)
   makeResident();
   //anc=a;
   a=a;
-  QCString memAnchor = name();
+/*  QCString memAnchor = name();
   if (!m_impl->args.isEmpty()) memAnchor+=m_impl->args;
 
   memAnchor.prepend(definition()); // actually the method name is now included
@@ -2831,8 +2831,8 @@ void MemberDef::setAnchor(const char *a)
   QCString sigStr(33);
   MD5Buffer((const unsigned char *)memAnchor.data(),memAnchor.length(),md5_sig);
   //printf("memAnchor=%s\n",memAnchor.data());
-  MD5SigToString(md5_sig,sigStr.data(),33);
-  m_impl->anc = "a"+sigStr;
+  MD5SigToString(md5_sig,sigStr.data(),33);*/
+  m_impl->anc = name();//"a"+sigStr;
 }
 
 void MemberDef::setGroupDef(GroupDef *gd,Grouping::GroupPri_t pri,
