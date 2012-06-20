@@ -4941,6 +4941,10 @@ QCString convertNameToFile(const char *name,bool allowDots,bool allowUnderscore)
 #endif
     result.prepend(QCString().sprintf("d%x/d%02x/",l1Dir,l2Dir));
   }
+  result.replace(QRegExp("^interface"), "");
+  result.replace(QRegExp("^protocol"), "");
+  result.replace(QRegExp("^group__"), "");
+  result.replace(QRegExp("-p$"), "");
   //printf("*** convertNameToFile(%s)->%s\n",name,result.data());
   return result;
 }
