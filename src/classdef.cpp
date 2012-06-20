@@ -2438,6 +2438,9 @@ bool ClassDef::isLinkableInProject() const
 
 bool ClassDef::isLinkable() const
 {
+  if (className() == QCString("Nimbus")) {
+    return false;
+  }
   if (m_impl->templateMaster)
   {
     return m_impl->templateMaster->isLinkable();
