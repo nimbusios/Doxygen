@@ -4944,7 +4944,7 @@ QCString convertNameToFile(const char *name,bool allowDots,bool allowUnderscore)
   result.replace(QRegExp("^interface"), "");
   result.replace(QRegExp("^protocol"), "");
   result.replace(QRegExp("^group__"), "");
-  result.replace(QRegExp("-p$"), "");
+  result.replace(QRegExp("-p$"), "-Protocol");
   //printf("*** convertNameToFile(%s)->%s\n",name,result.data());
   return result;
 }
